@@ -5,4 +5,4 @@ ___
 In this application used a local database to save the loaded news.
 
 
-<img src="https://github.com/Sickgrey/news_app/blob/master/app/gifs/screen.gif" width="300" height="600"/>
+<img src="https://github.com/Sickgrey/news_app/blob/main/gifs/screen.gif" width="300" height="600"/>
