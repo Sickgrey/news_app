@@ -10,13 +10,13 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  final String title = 'New York Times';
-  ApiService apiService = ApiService();
-  DbService database = DbService();
+  final String _title = 'New York Times';
+  ApiService _apiService = ApiService();
+  DbService _database = DbService();
 
   @override
   void dispose() {
-    database.close();
+    _database.close();
     super.dispose();
   }
 
@@ -27,22 +27,22 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   void _fetchNews() async {
-    var news = await apiService.getNews();
-    database.saveToDatabase(news);
+    var news = await _apiService.getNews();
+    _database.saveToDatabase(news);
   }
 
   @override
   Widget build(BuildContext context) {
-    var newsList = database.loadFromDatabase();
+    var _newsList = _database.loadFromDatabase();
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(
-        title: Text(title),
+        title: Text(_title),
       ),
       body: ListView.builder(
-          itemCount: newsList.length,
+          itemCount: _newsList.length,
           itemBuilder: (context, index) {
-            return _article(newsList.get(index) as Article);
+            return _article(_newsList.get(index) as Article);
           }),
     );
   }

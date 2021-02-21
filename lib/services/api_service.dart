@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:news_app/models/article.dart';
+import 'package:news_app/resources/constants.dart';
 
 class ApiService {
   final String _baseUrl = 'api.nytimes.com';
-  static const String api_key = ''; //  ENTER YOUR API KEY
+  final String _apiKey = api_key; //  ENTER YOUR API KEY
 
   Future<List<Article>> getNews() async {
-    Map<String, String> _parameters = {'api-key': api_key};
+    Map<String, String> _parameters = {'api-key': _apiKey};
     String _unencodedPath = '/svc/topstories/v2/home.json';
     List<Article> list = [];
     try {
