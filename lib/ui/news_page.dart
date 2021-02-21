@@ -13,33 +13,36 @@ class _NewsPageState extends State<NewsPage> {
   final String title = 'New York Times';
   ApiService apiService = ApiService();
   DbService database = DbService();
-  List<Article> _news = [];
+
+  @override
+  void dispose() {
+    database.close();
+    super.dispose();
+  }
 
   @override
   void initState() {
     _fetchNews();
-    //database.initDatabase();
     super.initState();
   }
 
   void _fetchNews() async {
     var news = await apiService.getNews();
-    setState(() {
-      _news = news;
-    });
+    database.saveToDatabase(news);
   }
 
   @override
   Widget build(BuildContext context) {
+    var newsList = database.loadFromDatabase();
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(
         title: Text(title),
       ),
       body: ListView.builder(
-          itemCount: _news.length,
+          itemCount: newsList.length,
           itemBuilder: (context, index) {
-            return _article(_news[index]);
+            return _article(newsList.get(index) as Article);
           }),
     );
   }
