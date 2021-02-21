@@ -4,8 +4,7 @@ import 'package:news_app/models/article.dart';
 
 class ApiService {
   final String _baseUrl = 'api.nytimes.com';
-  static const String api_key =
-      'G6t8NF8zyen7IxJkC96NJzzRbaqc5An6'; //  ENTER YOUR API KEY
+  static const String api_key = ''; //  ENTER YOUR API KEY
 
   Future<List<Article>> getNews() async {
     Map<String, String> _parameters = {'api-key': api_key};
