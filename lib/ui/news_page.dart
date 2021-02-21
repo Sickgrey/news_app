@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/models/article.dart';
 import 'package:news_app/services/api_service.dart';
+import 'package:news_app/services/db_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NewsPage extends StatefulWidget {
@@ -11,15 +12,17 @@ class NewsPage extends StatefulWidget {
 class _NewsPageState extends State<NewsPage> {
   final String title = 'New York Times';
   ApiService apiService = ApiService();
+  DbService database = DbService();
   List<Article> _news = [];
 
   @override
   void initState() {
     _fetchNews();
+    //database.initDatabase();
     super.initState();
   }
 
-  _fetchNews() async {
+  void _fetchNews() async {
     var news = await apiService.getNews();
     setState(() {
       _news = news;
@@ -41,7 +44,7 @@ class _NewsPageState extends State<NewsPage> {
     );
   }
 
-  _article(Article article) {
+  Widget _article(Article article) {
     final String _publishedDate =
         article.publishedDate.substring(0, 19).replaceAll(RegExp('T'), ' at ');
 
@@ -75,7 +78,7 @@ class _NewsPageState extends State<NewsPage> {
                 ]))));
   }
 
-  _loadDetails(String url) async {
+  void _loadDetails(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
