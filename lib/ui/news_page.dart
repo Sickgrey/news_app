@@ -68,7 +68,9 @@ class _NewsPageState extends State<NewsPage> {
                   Text(article.text, style: TextStyle(color: Colors.black)),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: RaisedButton(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).primaryColorLight),
                       child: Text('Details'),
                       onPressed: () => _loadDetails(article.url),
                     ),
