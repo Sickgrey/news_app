@@ -1,50 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:news_app/controllers/controller.dart';
 import 'package:news_app/models/article.dart';
-import 'package:news_app/services/api_service.dart';
-import 'package:news_app/services/db_service.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:news_app/resources/colors.dart';
 
-class NewsPage extends StatefulWidget {
-  @override
-  _NewsPageState createState() => _NewsPageState();
-}
-
-class _NewsPageState extends State<NewsPage> {
+class NewsPage extends StatelessWidget {
   final String _title = 'New York Times';
-  ApiService _apiService = ApiService();
-  DbService _database = DbService();
-
-  @override
-  void dispose() {
-    _database.close();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    _fetchNews();
-    super.initState();
-  }
-
-  void _fetchNews() async {
-    var news = await _apiService.getNews();
-    _database.saveToDatabase(news);
-  }
 
   @override
   Widget build(BuildContext context) {
-    var _newsList = _database.loadFromDatabase();
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColorLight,
-      appBar: AppBar(
-        title: Text(_title),
-      ),
-      body: ListView.builder(
-          itemCount: _newsList.length,
-          itemBuilder: (context, index) {
-            return _article(_newsList.get(index) as Article);
-          }),
-    );
+        backgroundColor: Theme.of(context).primaryColorLight,
+        appBar: AppBar(
+          title: Text(_title),
+        ),
+        body: GetBuilder<Controller>(
+            init: Controller(),
+            builder: (controller) {
+              return ListView.builder(
+                  itemCount: controller.news.length,
+                  itemBuilder: (context, index) {
+                    return _article(controller.news[index]);
+                  });
+            }));
   }
 
   Widget _article(Article article) {
@@ -69,10 +47,9 @@ class _NewsPageState extends State<NewsPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).primaryColorLight),
+                      style: ElevatedButton.styleFrom(primary: greyLight),
                       child: Text('Details'),
-                      onPressed: () => _loadDetails(article.url),
+                      onPressed: () => Controller.to.loadDetails(article.url),
                     ),
                   ),
                   Align(
@@ -81,13 +58,5 @@ class _NewsPageState extends State<NewsPage> {
                         style: TextStyle(color: Colors.grey)),
                   )
                 ]))));
-  }
-
-  void _loadDetails(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }

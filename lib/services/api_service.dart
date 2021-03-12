@@ -10,15 +10,17 @@ class ApiService {
   Future<List<Article>> getNews() async {
     Map<String, String> _parameters = {'api-key': _apiKey};
     String _unencodedPath = '/svc/topstories/v2/home.json';
-    List<Article> list = [];
+    List<Article> _list = [];
     try {
-      var uri = Uri.http(_baseUrl, _unencodedPath, _parameters);
-      var response = await http.get(uri);
-      Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
-      data['results'].forEach((article) => list.add(Article.fromMap(article)));
+      final _uri = Uri.https(_baseUrl, _unencodedPath, _parameters);
+      final _response = await http.get(_uri);
+      final Map<String, dynamic> _data =
+          json.decode(utf8.decode(_response.bodyBytes));
+      _data['results']
+          .forEach((article) => _list.add(Article.fromMap(article)));
     } catch (err) {
       print(err.toString());
     }
-    return list;
+    return _list;
   }
 }
