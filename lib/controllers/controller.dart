@@ -10,8 +10,10 @@ class Controller extends GetxController {
   final ApiService _apiService = ApiService();
   final DbService _dbService = DbService();
 
-  Controller() {
+  @override
+  void onInit() {
     fetchNews();
+    super.onInit();
   }
 
   static Controller get to => Get.find();
