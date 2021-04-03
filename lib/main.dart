@@ -18,6 +18,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: mainTheme, home: NewsPage());
+    return MaterialApp(theme: AppThemes.mainTheme, home: NewsPage());
   }
 }

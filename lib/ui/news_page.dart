@@ -47,7 +47,8 @@ class NewsPage extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: greyLight),
+                      style: ElevatedButton.styleFrom(
+                          primary: AppColors.greyLight),
                       child: Text('Details'),
                       onPressed: () => Controller.to.loadDetails(article.url),
                     ),
